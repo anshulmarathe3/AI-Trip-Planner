@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Range Picker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .calendar {
+      position: relative;
+      display: inline-block;
+    }
+
+    #datepicker-from,
+    #datepicker-to {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 200px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    #calendar-container {
+      display: none;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #calendar-container.visible {
+      display: block;
+    }
+
+    .calendar-item {
+      display: inline-block;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    .calendar-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .calendar-item.active {
+      background-color: #c7e5c3;
+      color: #007bff;
+    }
+
+    .calendar-row {
+      display: flex;
+    }
+
+    .calendar-header {
+      font-weight: bold;
+      padding-bottom: 5px;
+      text-align: center;
+    }
+
+    .month-year {
+      font-size: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .prev-month,
+    .next-month {
+      color: #007bff;
+      cursor: pointer;
+    }
+
+    .today {
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .clear {
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class="calendar">
+    <input type="text" id="datepicker-from" placeholder="Select From Date">
+    <input type="text" id="datepicker-to" placeholder="Select To Date">
+    <div class="calendar-container" id="calendar-container"></div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const datepickerFrom = document.getElementById("datepicker-from");
+      const datepickerTo = document.getElementById("datepicker-to");
+      const calendarContainer = document.getElementById("calendar-container");
+      let startDate, endDate, currentMonth, currentYear;
+
+      // Function to toggle visibility of calendar container
+      function toggleCalendar() {
+        calendarContainer.classList.toggle("visible");
+      }
+
+      // Function to generate calendar
+      function generateCalendar(year, month) {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const currentDate = new Date();
+        currentMonth = month !== undefined ? month : currentDate.getMonth();
+        currentYear = year !== undefined ? year : currentDate.getFullYear();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const monthName = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long' });
+
+        let calendarHTML = `
+          <div class="navigation">
+            <span class="prev-month">&lt;</span>
+            <div class="month-year">${monthName} ${currentYear}</div>
+            <span class="next-month">&gt;</span>
+          </div>`;
+        calendarHTML += '<div class="calendar-row calendar-header">';
+        days.forEach(day => {
+          calendarHTML += `<div class="calendar-item">${day}</div>`;
+        });
+        calendarHTML += '</div>';
+
+        let firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+        let lastDayOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+        // Add empty cells for previous month
+        calendarHTML += '<div class="calendar-row">';
+        for (let i = 0; i < firstDayOfMonth; i++) {
+          calendarHTML += `<div class="calendar-item prev-month">${lastDayOfPrevMonth - firstDayOfMonth + i + 1}</div>`;
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+          const day = new Date(currentYear, currentMonth, i).getDay();
+          const today = currentDate.getDate() === i && currentDate.getMonth() === currentMonth && currentDate.getFullYear() === currentYear;
+          calendarHTML += `<div class="calendar-item${today ? ' today' : ''}" data-day="${i}">${i}</div>`;
+          if (day === 6 && i !== daysInMonth) {
+            calendarHTML += '</div><div class="calendar-row">';
+          }
+        }
+
+        calendarHTML += '</div>';
+
+        calendarContainer.innerHTML = calendarHTML;
+
+        // Event listener for selecting a date range
+        calendarContainer.addEventListener("click", function(e) {
+          if (e.target.classList.contains("calendar-item") && !e.target.classList.contains("prev-month")) {
+            const selectedDay = parseInt(e.target.getAttribute("data-day"));
+            const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+            if (!startDate || (startDate && selectedDate < startDate)) {
+              startDate = selectedDate;
+              endDate = null;
+              datepickerFrom.value = startDate.toLocaleDateString('en-US');
+              datepickerTo.value = "";
+            } else if (!endDate || (endDate && selectedDate > endDate)) {
+              endDate = selectedDate;
+              datepickerTo.value = endDate.toLocaleDateString('en-US');
+            } else {
+              startDate = selectedDate;
+              datepickerFrom.value = startDate.toLocaleDateString('en-US');
+              datepickerTo.value = "";
+            }
+            updateCalendar();
+          }
+        });
+      }
+
+      // Function to update calendar appearance
+      function updateCalendar() {
+        const calendarItems = document.querySelectorAll('.calendar-item');
+        calendarItems.forEach(item => {
+          const day = parseInt(item.getAttribute('data-day'));
+          if (startDate && endDate) {
+            if (day >= startDate.getDate() && day <= endDate.getDate()) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          } else if (startDate && day === startDate.getDate()) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      }
+
+      // Event listener for showing/hiding calendar
+      datepickerFrom.addEventListener("click", toggleCalendar);
+      datepickerTo.addEventListener("click", toggleCalendar);
+
+      // Event listener for previous month button
+      calendarContainer.addEventListener("click", function(e) {
+        if (e.target.classList.contains("prev-month")) {
+          currentMonth--;
+          if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+          }
+          generateCalendar(currentYear, currentMonth);
+          updateCalendar();
+        }
+      });
+
+      // Event listener for next month button
+      calendarContainer.addEventListener("click", function(e) {
+        if (e.target.classList.contains("next-month")) {
+          currentMonth++;
+          if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+          }
+          generateCalendar(currentYear, currentMonth);
+          updateCalendar();
+        }
+      });
+
+      // Initial calendar generation
+      generateCalendar();
+
+      // Update calendar appearance
+      updateCalendar();
+    });
+  </script>
+</body>
+</html>

@@ -6,7 +6,123 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parallax Scrolling Website | Codehal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .white-space {
+            height: 100vh; /* Set the height to fill the entire viewport */
+            background-color: #023020; /* Updated background color */
+            display: flex; /* Use flexbox for centering */
+            align-items: flex-start; /* Align items to the start (top) */
+            justify-content: left; /* Center horizontally */
+            text-align: left; /* Align text in the left */
+            padding: 50px; /* Add padding for space around content */
+            color: white; /* Updated text color */
+        }
+        .white-space p {
+            font-size: 24px; /* Adjust font size as needed */
+            margin-bottom: 20px; /* Add margin below the text */
+        }
+        .content{
+            max-width: 620px; 
+            color: white; /* Updated text color */
+        }
+        .content h1{
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+        .content form{
+            display: flex;
+            flex-direction: column; /* Align items in column */
+            align-items: flex-start; /* Align items to the start (left) */
+            margin-top: 30px;
+        }
+
+        .content form input{
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px; /* Adjust input width as needed */
+            border-radius: 5px;
+            margin-bottom: 10px; /* Add margin below the input */
+        }
+        .content form button{
+            background-color: #007bff;
+            color: white; /* Updated text color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .footer{
+            background-color: #111;
+        }
+        .footerContainer{
+            width: 100%;
+            padding: 70px 30px 20px;
+        }
+        .socialIcons{
+            display: flex;
+            justify-content: center;
+
+        }
+        .socialIcons a{
+            text-decoration: none;
+            background-color: white;
+            margin: 10px;
+            border-radius: 50%;
+        }
+        .socialIcons a i{
+            font-size: 2em;
+            color: #023020;
+            opacity: 0.9;
+        }
+        
+         .container-img img {
+        width: 100px; /* Adjust the width of the icons */
+        height: auto; /* Maintain aspect ratio */
+         }
+          .text h2 {
+        font-size: 36px; /* Set the font size to match the h1 */
+        line-height: 1.1;
+    }
+        .row-items{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px,auto));
+            grid-gap: 2rem;
+            align-items: center;
+            text-align: center;
+            margin-top: 5rem;
+        }
+        .container-box{
+            background: var(--bg--color);
+            border: 1px solid #f0eded;
+            padding: 50px 10px;
+            border-radius: 4px;
+            transition: all 1s ease 0s;
+            cursor: pointer;
+
+        }
+        .container-img img{
+            height: 85px;
+            width:85px;
+            padding: 15px;
+            background-color: var(--bg-color);      
+            box-shadow: 5px 10px 30px rgb(85 85 85 / 20%);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .container-box:hover{
+            box-shadow: 5px 30px 56.1276px rgb(55 55 55 / 12%);
+            border: 1px solid transparent;
+            transform: translate(-3px);
+        }
+    </style
+    >
 </head>
 
 <body>
@@ -16,11 +132,12 @@
             <a href="#">Home</a>
             <a href="#">Hotels</a>
             <a href="#">Blog</a>
+            <a href='BootWeb1.html'>Sign up</a>
+            <a href='BootWeb2.html'>Sign in</a>
         </nav>
     </header>
 
     <section class="Trip">
-
         <img src="hill1.png" id="hill1">
         <img src="hill2.png" id="hill2">
         <img src="hill3.png" id="hill3">
@@ -29,9 +146,71 @@
         <img src="tree.png" id="tree">
         <h2 id="text">Trip Planner.AI</h2>
         <img src="leaf.png" id="leaf">
-        <img src="plant.png" id="plant">
-
+        <img src="plant.png" id="plant"> s d g
     </section>
+  
+
+
+
+
+    <!-- White space at the bottom -->
+    <div class="white-space">
+        <div class="content">
+            <h1>Plan Your Trip<br>With Trip Planner</h1>
+            <p>An AI Based trip Planner <br>Your AI travel companion........</p>
+            <form>
+                <input type="text" placeholder="Enter Your Trip">
+                
+            </form>
+        </div>
+    </div>
+     <section class="container">
+        <div class="text">
+            <h2> Start Your Vacation <br> with Lots of Serivces!</h2>
+        </div>
+    <div class="row-items">
+        <div class="container-box">
+            <div class="container-img">
+                <img src="C:\Users\Aqib\Documents\Travell_web_proj\Start Project Parallax Scrolling Website\cruise.png">
+                <div class="overlay">
+                    Start Your Vacation
+                </div>
+            </div>
+            <h4>ship Cruises</h4>
+            <p>150 properties</p>
+        </div>
+        <div class="container-box">
+            <div class="container-img">
+                <img src="C:\Users\Aqib\Documents\Travell_web_proj\Start Project Parallax Scrolling Website\beach.png">
+                <div class="overlay">
+                    Start Your Vacation
+                </div>
+            </div>
+            <h4>beach Tour</h4>
+            <p>150 properties</p>
+        </div>
+        <div class="container-box">
+            <div class="container-img">
+                <img src="C:\Users\Aqib\Documents\Travell_web_proj\Start Project Parallax Scrolling Website\dish.png">
+                <div class="overlay">
+                    Start Your Vacation
+                </div>
+            </div>
+            <h4>Food Tours</h4>
+            <p>150 properties</p>
+        </div>
+        <div class="container-box">
+            <div class="container-img">
+                <img src="C:\Users\Aqib\Documents\Travell_web_proj\Start Project Parallax Scrolling Website\mountain.png">
+                <div class="overlay">
+                    Start Your Vacation
+                </div>
+            </div>
+            <h4>Mountains Tours</h4>
+            <p>150 properties</p>
+        </div>
+    </div>
+</section>
 
     <script>
         let text = document.getElementById('text');
@@ -42,19 +221,23 @@
 
         window.addEventListener('scroll', () => {
             let value = window.scrollY;
-            text.style.marginTop = value * 2.5 + 'px';
+            
             leaf.style.top = value * -1.5 + 'px';
             leaf.style.left = value * 1.5 + 'px';
             hill5.style.left = value * 1.5 + 'px';
             hill4.style.left = value * -1.5 + 'px';
-            hill1.style.top = value * 1.5 + 'px';
-
-
-
-
 
         });
     </script>
+    <div class="footerContainer"></div>
+        <div class="socialIcons">
+            <a href=""><i class="fa-brands fa-facebook"></i></a>
+            <a href=""><i class="fa-brands fa-instagram"></i></a>
+            <a href=""><i class="fa-brands fa-twitter"></i></a>
+            <a href=""><i class="fa-brands fa-google-plus"></i></a>
+            <a href=""><i class="fa-brands fa-youtube"></i></a>
+        </div>
+
 </body>
 
 </html>
